@@ -1,4 +1,5 @@
 import * as React from "react"
+import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 
 type NumberPlateProps = {
@@ -15,9 +16,10 @@ export function NumberPlate({
   children,
 }: NumberPlateProps) {
   return (
-    <span
+    <Badge
+      variant="outline"
       className={cn(
-        "inline-flex items-center rounded-md border px-2 py-0.5 font-mono text-sm font-bold tracking-widest leading-none",
+        "h-auto rounded-md px-2 py-0.5 font-mono text-xs font-bold tracking-widest",
         isCommercial
           ? "border-amber-400 bg-amber-100 text-amber-900 dark:border-amber-500 dark:bg-amber-950/20 dark:text-amber-200"
           : "border-accent-foreground/30 bg-accent text-accent-foreground",
@@ -25,7 +27,6 @@ export function NumberPlate({
       )}
     >
       {children ?? value}
-    </span>
+    </Badge>
   )
 }
-
