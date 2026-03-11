@@ -8,7 +8,16 @@ export type InsuranceRecord = {
   phoneNumber: string
 }
 
-// Rewritten data focused exclusively on Delhi areas
+export type InsuranceRecord = {
+  id: string
+  timestamp: string
+  vehicleNumber: string
+  isCommercial: boolean
+  area: string
+  insuranceExpiry: string
+  phoneNumber: string
+}
+
 export const insuranceRecords: InsuranceRecord[] = [
   {
     id: "rec-001",
@@ -16,7 +25,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     vehicleNumber: "DL-1C-XX-XXXX",
     isCommercial: false,
     area: "Chanakyapuri",
-    insuranceExpiry: "2025-12-15",
+    insuranceExpiry: "2026-02-15",
     phoneNumber: "98XXXX1234",
   },
   {
@@ -25,7 +34,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     vehicleNumber: "DL-3C-XX-XXXX",
     isCommercial: true,
     area: "Connaught Place",
-    insuranceExpiry: "2026-04-02",
+    insuranceExpiry: "2026-03-01",
     phoneNumber: "70XXXX5678",
   },
   {
@@ -34,7 +43,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     vehicleNumber: "DL-9C-XX-XXXX",
     isCommercial: false,
     area: "Rohini Sector 11",
-    insuranceExpiry: "2027-01-20",
+    insuranceExpiry: "2026-03-10",
     phoneNumber: "91XXXX9012",
   },
   {
@@ -43,7 +52,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     vehicleNumber: "DL-12-XX-XXXX",
     isCommercial: false,
     area: "Hauz Khas Village",
-    insuranceExpiry: "2026-03-25",
+    insuranceExpiry: "2026-03-12",
     phoneNumber: "88XXXX3456",
   },
   {
@@ -52,7 +61,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     vehicleNumber: "DL-8C-XX-XXXX",
     isCommercial: true,
     area: "Lajpat Nagar",
-    insuranceExpiry: "2025-09-30",
+    insuranceExpiry: "2026-03-15",
     phoneNumber: "99XXXX7890",
   },
   {
@@ -61,7 +70,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     vehicleNumber: "DL-4C-XX-XXXX",
     isCommercial: false,
     area: "Karol Bagh Market",
-    insuranceExpiry: "2026-06-11",
+    insuranceExpiry: "2026-03-25",
     phoneNumber: "77XXXX2345",
   },
   {
@@ -70,7 +79,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     vehicleNumber: "DL-2C-XX-XXXX",
     isCommercial: false,
     area: "Tilak Nagar",
-    insuranceExpiry: "2026-03-18",
+    insuranceExpiry: "2026-04-05",
     phoneNumber: "82XXXX6789",
   },
   {
@@ -79,7 +88,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     vehicleNumber: "DL-10-XX-XXXX",
     isCommercial: false,
     area: "Vasant Kunj",
-    insuranceExpiry: "2025-11-08",
+    insuranceExpiry: "2026-02-28",
     phoneNumber: "93XXXX1234",
   },
   {
@@ -88,7 +97,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     vehicleNumber: "DL-7C-XX-XXXX",
     isCommercial: false,
     area: "Mayur Vihar Phase 1",
-    insuranceExpiry: "2027-05-14",
+    insuranceExpiry: "2026-03-11",
     phoneNumber: "80XXXX5678",
   },
   {
@@ -96,8 +105,8 @@ export const insuranceRecords: InsuranceRecord[] = [
     timestamp: "2026-03-11 10:39:56",
     vehicleNumber: "DL-5C-XX-XXXX",
     isCommercial: false,
-    area: "Shahdara Industrial Area",
-    insuranceExpiry: "2026-04-08",
+    area: "Shahdara",
+    insuranceExpiry: "2026-04-01",
     phoneNumber: "96XXXX9012",
   },
   {
@@ -106,7 +115,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     vehicleNumber: "DL-1Y-XX-XXXX",
     isCommercial: true,
     area: "Dwarka Sector 21",
-    insuranceExpiry: "2026-02-28",
+    insuranceExpiry: "2026-03-13",
     phoneNumber: "74XXXX3456",
   },
   {
@@ -114,8 +123,8 @@ export const insuranceRecords: InsuranceRecord[] = [
     timestamp: "2026-03-11 11:13:47",
     vehicleNumber: "DL-11-XX-XXXX",
     isCommercial: false,
-    area: "Janakpuri District Centre",
-    insuranceExpiry: "2027-08-22",
+    area: "Janakpuri",
+    insuranceExpiry: "2026-03-08",
     phoneNumber: "85XXXX7890",
   },
   {
@@ -124,7 +133,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     vehicleNumber: "DL-3S-XX-XXXX",
     isCommercial: false,
     area: "Paharganj",
-    insuranceExpiry: "2025-07-16",
+    insuranceExpiry: "2026-04-09",
     phoneNumber: "92XXXX2345",
   },
   {
@@ -133,7 +142,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     vehicleNumber: "DL-6C-XX-XXXX",
     isCommercial: false,
     area: "Pitampura",
-    insuranceExpiry: "2026-03-31",
+    insuranceExpiry: "2026-03-20",
     phoneNumber: "78XXXX6789",
   },
   {
@@ -142,7 +151,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     vehicleNumber: "DL-1C-XX-XXXX",
     isCommercial: false,
     area: "Civil Lines",
-    insuranceExpiry: "2026-09-05",
+    insuranceExpiry: "2026-01-30",
     phoneNumber: "89XXXX1234",
   },
   {
@@ -151,7 +160,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     vehicleNumber: "DL-8S-XX-XXXX",
     isCommercial: false,
     area: "Greater Kailash 2",
-    insuranceExpiry: "2026-01-19",
+    insuranceExpiry: "2026-03-22",
     phoneNumber: "97XXXX5678",
   },
   {
@@ -160,7 +169,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     vehicleNumber: "DL-4C-XX-XXXX",
     isCommercial: true,
     area: "Saket District Centre",
-    insuranceExpiry: "2027-03-30",
+    insuranceExpiry: "2026-03-30",
     phoneNumber: "75XXXX9012",
   },
   {
@@ -169,7 +178,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     vehicleNumber: "DL-12-XX-XXXX",
     isCommercial: false,
     area: "R K Puram",
-    insuranceExpiry: "2026-03-20",
+    insuranceExpiry: "2026-03-11",
     phoneNumber: "83XXXX3456",
   },
   {
@@ -177,8 +186,8 @@ export const insuranceRecords: InsuranceRecord[] = [
     timestamp: "2026-03-11 13:07:29",
     vehicleNumber: "DL-10-XX-XXXX",
     isCommercial: false,
-    area: "Aerocity Terminal",
-    insuranceExpiry: "2025-10-11",
+    area: "Aerocity",
+    insuranceExpiry: "2026-02-14",
     phoneNumber: "90XXXX7890",
   },
   {
@@ -187,7 +196,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     vehicleNumber: "DL-3C-XX-XXXX",
     isCommercial: false,
     area: "Okhla Phase III",
-    insuranceExpiry: "2026-07-17",
+    insuranceExpiry: "2026-04-02",
     phoneNumber: "76XXXX2345",
   },
   {
@@ -196,7 +205,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     vehicleNumber: "DL-1L-XX-XXXX",
     isCommercial: true,
     area: "Chandni Chowk",
-    insuranceExpiry: "2025-08-14",
+    insuranceExpiry: "2026-01-01",
     phoneNumber: "84XXXX6789",
   },
   {
@@ -205,7 +214,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     vehicleNumber: "DL-1T-XX-XXXX",
     isCommercial: true,
     area: "Naraina Industrial",
-    insuranceExpiry: "2026-05-22",
+    insuranceExpiry: "2026-03-14",
     phoneNumber: "91XXXX1234",
   },
   {
@@ -214,7 +223,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     vehicleNumber: "DL-1V-XX-XXXX",
     isCommercial: true,
     area: "Preet Vihar",
-    insuranceExpiry: "2027-02-10",
+    insuranceExpiry: "2026-03-28",
     phoneNumber: "79XXXX5678",
   },
   {
@@ -223,7 +232,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     vehicleNumber: "DL-9C-XX-XXXX",
     isCommercial: false,
     area: "Paschim Vihar",
-    insuranceExpiry: "2026-03-14",
+    insuranceExpiry: "2026-02-20",
     phoneNumber: "95XXXX9012",
   },
   {
@@ -231,233 +240,36 @@ export const insuranceRecords: InsuranceRecord[] = [
     timestamp: "2026-03-11 14:43:52",
     vehicleNumber: "DL-1C-XX-XXXX",
     isCommercial: true,
-    area: "New Delhi Railway Stn",
-    insuranceExpiry: "2025-06-28",
+    area: "NDLS",
+    insuranceExpiry: "2026-03-18",
     phoneNumber: "72XXXX3456",
   },
-  {
-    id: "rec-026",
-    timestamp: "2026-03-11 15:00:04",
-    vehicleNumber: "DL-1R-XX-XXXX",
-    isCommercial: true,
-    area: "Kashmere Gate",
-    insuranceExpiry: "2026-10-03",
-    phoneNumber: "86XXXX7890",
-  },
-  {
-    id: "rec-027",
-    timestamp: "2026-03-11 15:16:38",
-    vehicleNumber: "DL-10-XX-XXXX",
-    isCommercial: false,
-    area: "Mahipalpur",
-    insuranceExpiry: "2026-08-19",
-    phoneNumber: "93XXXX2345",
-  },
-  {
-    id: "rec-028",
-    timestamp: "2026-03-11 15:32:11",
-    vehicleNumber: "DL-1G-XX-XXXX",
-    isCommercial: true,
-    area: "Patparganj Industrial",
-    insuranceExpiry: "2025-12-31",
-    phoneNumber: "80XXXX6789",
-  },
-  {
-    id: "rec-029",
-    timestamp: "2026-03-11 15:47:29",
-    vehicleNumber: "DL-4C-XX-XXXX",
-    isCommercial: false,
-    area: "Rajouri Garden",
-    insuranceExpiry: "2027-04-07",
-    phoneNumber: "97XXXX1234",
-  },
-  {
-    id: "rec-030",
-    timestamp: "2026-03-11 16:03:55",
-    vehicleNumber: "DL-7C-XX-XXXX",
-    isCommercial: true,
-    area: "Connaught Place",
-    insuranceExpiry: "2026-03-29",
-    phoneNumber: "74XXXX5678",
-  },
-  {
-    id: "rec-031",
-    timestamp: "2026-03-11 16:19:20",
-    vehicleNumber: "DL-5C-XX-XXXX",
-    isCommercial: false,
-    area: "Yamuna Vihar",
-    insuranceExpiry: "2025-11-22",
-    phoneNumber: "88XXXX9012",
-  },
-  {
-    id: "rec-032",
-    timestamp: "2026-03-11 16:34:47",
-    vehicleNumber: "DL-1N-XX-XXXX",
-    isCommercial: true,
-    area: "Narela Industrial Area",
-    insuranceExpiry: "2026-06-15",
-    phoneNumber: "96XXXX3456",
-  },
-  {
-    id: "rec-033",
-    timestamp: "2026-03-11 16:50:13",
-    vehicleNumber: "DL-2C-XX-XXXX",
-    isCommercial: true,
-    area: "Dwarka Sector 10",
-    insuranceExpiry: "2027-09-11",
-    phoneNumber: "75XXXX7890",
-  },
-  {
-    id: "rec-034",
-    timestamp: "2026-03-11 17:05:39",
-    vehicleNumber: "DL-11-XX-XXXX",
-    isCommercial: false,
-    area: "Uttam Nagar East",
-    insuranceExpiry: "2026-03-12",
-    phoneNumber: "83XXXX2345",
-  },
-  {
-    id: "rec-035",
-    timestamp: "2026-03-11 17:21:02",
-    vehicleNumber: "DL-1K-XX-XXXX",
-    isCommercial: true,
-    area: "Sarita Vihar",
-    insuranceExpiry: "2025-09-05",
-    phoneNumber: "90XXXX6789",
-  },
-  {
-    id: "rec-036",
-    timestamp: "2026-03-11 17:36:28",
-    vehicleNumber: "DL-10-XX-XXXX",
-    isCommercial: false,
-    area: "Vasant Kunj North",
-    insuranceExpiry: "2026-11-28",
-    phoneNumber: "77XXXX1234",
-  },
-  {
-    id: "rec-037",
-    timestamp: "2026-03-11 17:51:54",
-    vehicleNumber: "DL-1C-XX-XXXX",
-    isCommercial: true,
-    area: "Khan Market",
-    insuranceExpiry: "2026-04-20",
-    phoneNumber: "85XXXX5678",
-  },
-  {
-    id: "rec-038",
-    timestamp: "2026-03-11 18:07:19",
-    vehicleNumber: "DL-3C-XX-XXXX",
-    isCommercial: false,
-    area: "Mandi House",
-    insuranceExpiry: "2025-07-03",
-    phoneNumber: "92XXXX9012",
-  },
-  {
-    id: "rec-039",
-    timestamp: "2026-03-11 18:22:45",
-    vehicleNumber: "DL-9T-XX-XXXX",
-    isCommercial: true,
-    area: "Saket District Centre",
-    insuranceExpiry: "2026-02-14",
-    phoneNumber: "78XXXX3456",
-  },
-  {
-    id: "rec-040",
-    timestamp: "2026-03-11 18:38:01",
-    vehicleNumber: "DL-2C-XX-XXXX",
-    isCommercial: false,
-    area: "Janakpuri West",
-    insuranceExpiry: "2027-07-25",
-    phoneNumber: "89XXXX7890",
-  },
-  {
-    id: "rec-041",
-    timestamp: "2026-03-10 09:05:33",
-    vehicleNumber: "DL-8C-XX-XXXX",
-    isCommercial: false,
-    area: "Malviya Nagar",
-    insuranceExpiry: "2026-05-08",
-    phoneNumber: "96XXXX2345",
-  },
-  {
-    id: "rec-042",
-    timestamp: "2026-03-10 09:22:17",
-    vehicleNumber: "DL-6C-XX-XXXX",
-    isCommercial: true,
-    area: "Lajpat Nagar IV",
-    insuranceExpiry: "2025-10-17",
-    phoneNumber: "73XXXX6789",
-  },
-  {
-    id: "rec-043",
-    timestamp: "2026-03-10 09:39:48",
-    vehicleNumber: "DL-1T-XX-XXXX",
-    isCommercial: true,
-    area: "Naraina Industrial Phase II",
-    insuranceExpiry: "2026-08-04",
-    phoneNumber: "81XXXX1234",
-  },
-  {
-    id: "rec-044",
-    timestamp: "2026-03-10 09:56:22",
-    vehicleNumber: "DL-12-XX-XXXX",
-    isCommercial: false,
-    area: "Siri Fort",
-    insuranceExpiry: "2027-01-30",
-    phoneNumber: "98XXXX5678",
-  },
-  {
-    id: "rec-045",
-    timestamp: "2026-03-10 10:13:59",
-    vehicleNumber: "DL-1C-XX-XXXX",
-    isCommercial: false,
-    area: "India Gate",
-    insuranceExpiry: "2026-03-22",
-    phoneNumber: "76XXXX9012",
-  },
-  {
-    id: "rec-046",
-    timestamp: "2026-03-10 10:30:44",
-    vehicleNumber: "DL-1V-XX-XXXX",
-    isCommercial: true,
-    area: "Vikas Marg",
-    insuranceExpiry: "2025-08-29",
-    phoneNumber: "84XXXX3456",
-  },
-  {
-    id: "rec-047",
-    timestamp: "2026-03-10 10:48:06",
-    vehicleNumber: "DL-10-XX-XXXX",
-    isCommercial: false,
-    area: "Aerocity Terminal 3",
-    insuranceExpiry: "2026-06-06",
-    phoneNumber: "91XXXX7890",
-  },
-  {
-    id: "rec-048",
-    timestamp: "2026-03-10 11:05:31",
-    vehicleNumber: "DL-1N-XX-XXXX",
-    isCommercial: true,
-    area: "Badli Industrial Area",
-    insuranceExpiry: "2026-12-19",
-    phoneNumber: "79XXXX2345",
-  },
-  {
-    id: "rec-049",
-    timestamp: "2026-03-10 11:22:18",
-    vehicleNumber: "DL-1Y-XX-XXXX",
-    isCommercial: true,
-    area: "Dwarka Sector 21",
-    insuranceExpiry: "2025-06-12",
-    phoneNumber: "95XXXX6789",
-  },
-  {
-    id: "rec-050",
-    timestamp: "2026-03-10 11:39:53",
-    vehicleNumber: "DL-4C-XX-XXXX",
-    isCommercial: false,
-    area: "Greater Kailash 1",
-    insuranceExpiry: "2027-03-01",
-    phoneNumber: "72XXXX1234",
-  },
 ]
+
+export function getExpiryStatus(expiry: string) {
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  const expiryDate = new Date(expiry)
+  const diffDays = Math.ceil(
+    (expiryDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
+  )
+
+  if (diffDays < 0)
+    return {
+      label: "Expired",
+      variant: "destructive" as const,
+      status: "expired" as const,
+    }
+  if (diffDays <= 30)
+    return {
+      label: `Exp. in ${diffDays}d`,
+      variant: "secondary" as const,
+      warn: true,
+      status: "expiring" as const,
+    }
+  return {
+    label: "Valid",
+    variant: "outline" as const,
+    status: "valid" as const,
+  }
+}
