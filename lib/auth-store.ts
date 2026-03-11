@@ -14,7 +14,7 @@ interface AuthState {
 
 const CREDENTIALS = {
   email: "admin@nawgati.com",
-  password: "admin123",
+  password: "nawgati@123",
   name: "Admin User",
 }
 
