@@ -8,16 +8,6 @@ export type InsuranceRecord = {
   phoneNumber: string
 }
 
-export type InsuranceRecord = {
-  id: string
-  timestamp: string
-  vehicleNumber: string
-  isCommercial: boolean
-  area: string
-  insuranceExpiry: string
-  phoneNumber: string
-}
-
 export const insuranceRecords: InsuranceRecord[] = [
   {
     id: "rec-001",
