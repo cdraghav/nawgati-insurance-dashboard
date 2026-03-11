@@ -7,8 +7,8 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { NumberPlate } from "@/components/ui/number-plate"
 import { EncryptedText } from "@/components/ui/encrypted-text"
-import { toast } from "sonner"
 import type { InsuranceRecord } from "@/lib/mock-data"
+import { realVehicleData } from "@/lib/real-data"
 import { useRevealedStore } from "@/lib/revealed-store"
 
 export function getExpiryStatus(expiry: string) {
@@ -81,16 +81,10 @@ function ShowDetailsCell({ record }: { record: InsuranceRecord }) {
 
   async function handleReveal() {
     setLoading(true)
-    try {
-      const res = await fetch(`/api/vehicle-details?id=${record.id}`)
-      if (!res.ok) throw new Error("Failed to fetch")
-      const data = await res.json()
-      setRevealed(record.id, data)
-    } catch {
-      toast.error("Failed to load details")
-    } finally {
-      setLoading(false)
-    }
+    await new Promise((r) => setTimeout(r, 600))
+    const data = realVehicleData[record.id]
+    if (data) setRevealed(record.id, data)
+    setLoading(false)
   }
 
   if (revealed) {
