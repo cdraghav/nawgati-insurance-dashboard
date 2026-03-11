@@ -11,6 +11,7 @@ type EncryptedTextProps = {
   revealedClassName?: string
   revealDelayMs?: number
   className?: string
+  onComplete?: () => void
 }
 
 export function EncryptedText({
@@ -19,8 +20,11 @@ export function EncryptedText({
   revealedClassName,
   revealDelayMs = 50,
   className,
+  onComplete,
 }: EncryptedTextProps) {
   const [revealedCount, setRevealedCount] = React.useState(0)
+  const onCompleteRef = React.useRef(onComplete)
+  onCompleteRef.current = onComplete
   const [scrambled, setScrambled] = React.useState<string[]>(() =>
     Array.from({ length: text.length }, () => randomChar(text, 0, -1))
   )
@@ -38,9 +42,12 @@ export function EncryptedText({
     return () => clearInterval(id)
   }, [revealedCount, text])
 
-  // Reveal one char at a time
+  // Reveal one char at a time; fire onComplete when done
   React.useEffect(() => {
-    if (revealedCount >= text.length) return
+    if (revealedCount >= text.length) {
+      onCompleteRef.current?.()
+      return
+    }
     const id = setTimeout(
       () => setRevealedCount((c) => c + 1),
       revealDelayMs

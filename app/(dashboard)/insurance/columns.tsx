@@ -35,41 +35,58 @@ export function getExpiryStatus(expiry: string) {
   return { label: "Valid", variant: "outline" as const, status: "valid" as const }
 }
 
-// Vehicle number cell — obfuscated or decrypting in-place
+// Vehicle number cell — animates once on first reveal; skips animation on re-renders
 function VehicleNumberCell({ record }: { record: InsuranceRecord }) {
   const revealed = useRevealedStore((s) => s.revealed[record.id])
+  const revealPhone = useRevealedStore((s) => s.revealPhone)
+  const realPhone = realVehicleData[record.id]?.phoneNumber
+
+  if (!revealed) return <NumberPlate isCommercial={record.isCommercial}>{record.vehicleNumber}</NumberPlate>
+
+  // phoneNumber being set means vehicle animation already completed — skip re-animating
+  if (revealed.phoneNumber !== null) {
+    return (
+      <NumberPlate isCommercial={record.isCommercial}>
+        {revealed.vehicleNumber}
+      </NumberPlate>
+    )
+  }
 
   return (
     <NumberPlate isCommercial={record.isCommercial}>
-      {revealed ? (
-        <EncryptedText
-          text={revealed.vehicleNumber}
-          encryptedClassName="opacity-40"
-          revealDelayMs={55}
-        />
-      ) : (
-        record.vehicleNumber
-      )}
+      <EncryptedText
+        text={revealed.vehicleNumber}
+        encryptedClassName="opacity-40"
+        revealDelayMs={55}
+        onComplete={() => {
+          if (realPhone) revealPhone(record.id, realPhone)
+        }}
+      />
     </NumberPlate>
   )
 }
 
-// Phone number cell — obfuscated or decrypting in-place
+// Phone number cell — animates once on first reveal; skips animation on re-renders
 function PhoneNumberCell({ record }: { record: InsuranceRecord }) {
   const revealed = useRevealedStore((s) => s.revealed[record.id])
+  const markPhoneAnimDone = useRevealedStore((s) => s.markPhoneAnimDone)
 
-  if (revealed) {
-    return (
-      <EncryptedText
-        text={revealed.phoneNumber}
-        encryptedClassName="text-muted-foreground/50"
-        className="font-mono text-sm font-medium"
-        revealDelayMs={40}
-      />
-    )
+  if (!revealed?.phoneNumber) return <span className="font-mono text-sm">{record.phoneNumber}</span>
+
+  // Animation already played — render instantly
+  if (revealed.phoneAnimDone) {
+    return <span className="font-mono text-sm font-medium">{revealed.phoneNumber}</span>
   }
 
-  return <span className="font-mono text-sm">{record.phoneNumber}</span>
+  return (
+    <EncryptedText
+      text={revealed.phoneNumber}
+      encryptedClassName="text-muted-foreground/50"
+      className="font-mono text-sm font-medium"
+      revealDelayMs={40}
+      onComplete={() => markPhoneAnimDone(record.id)}
+    />
+  )
 }
 
 // Actions cell — triggers API call, updates store, can re-obfuscate
@@ -83,7 +100,7 @@ function ShowDetailsCell({ record }: { record: InsuranceRecord }) {
     setLoading(true)
     await new Promise((r) => setTimeout(r, 600))
     const data = realVehicleData[record.id]
-    if (data) setRevealed(record.id, data)
+    if (data) setRevealed(record.id, { vehicleNumber: data.vehicleNumber, phoneNumber: null, phoneAnimDone: false })
     setLoading(false)
   }
 

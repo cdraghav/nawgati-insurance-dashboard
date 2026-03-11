@@ -44,6 +44,8 @@ import {
 } from "@/components/ui/pagination"
 import { FilterIcon, SearchIcon, XIcon } from "lucide-react"
 import type { InsuranceRecord } from "@/lib/mock-data"
+import { realVehicleData } from "@/lib/real-data"
+import { useRevealedStore } from "@/lib/revealed-store"
 import { cn } from "@/lib/utils"
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -305,6 +307,10 @@ export function DataTable<TData, TValue>({
   const [colFilters, setColFilters] = React.useState<ColFilters>(DEFAULT_COL_FILTERS)
   const [pageSize, setPageSize] = React.useState(10)
 
+  const revealed = useRevealedStore((s) => s.revealed)
+  // Defer search so the input stays responsive; filtering runs in a low-priority render
+  const deferredSearch = React.useDeferredValue(search)
+
   // Dynamic area options derived from the full dataset
   const areaOptions = React.useMemo(
     () => Array.from(new Set(data.map((r) => r.area))).sort(),
@@ -329,15 +335,27 @@ export function DataTable<TData, TValue>({
         if (d < weekAgoStr || d > todayStr) return false
       }
 
-      // Global search
-      if (search) {
-        const q = search.toLowerCase()
-        if (
-          !record.vehicleNumber.toLowerCase().includes(q) &&
-          !record.area.toLowerCase().includes(q) &&
-          !record.timestamp.includes(q)
-        )
-          return false
+      // Global search — comma-separated terms, searches real numbers for revealed rows
+      if (deferredSearch) {
+        const terms = deferredSearch.split(",").map((s) => s.trim().toLowerCase()).filter(Boolean)
+        if (terms.length > 0) {
+          const real = revealed[record.id]
+          // Normalize plate: remove hyphens/spaces for flexible matching
+          const plateRaw = (real?.vehicleNumber ?? record.vehicleNumber).toLowerCase()
+          const plateNorm = plateRaw.replace(/[-\s]/g, "")
+          const area = record.area.toLowerCase()
+          const phone = real?.phoneNumber?.toLowerCase() ?? record.phoneNumber.toLowerCase()
+          const matches = terms.some((term) => {
+            const termNorm = term.replace(/[-\s]/g, "")
+            return (
+              plateRaw.includes(term) ||
+              plateNorm.includes(termNorm) ||
+              area.includes(term) ||
+              phone.includes(term)
+            )
+          })
+          if (!matches) return false
+        }
       }
 
       // Column: timestamp date range
@@ -361,7 +379,7 @@ export function DataTable<TData, TValue>({
 
       return true
     })
-  }, [data, timeChip, search, colFilters])
+  }, [data, timeChip, deferredSearch, colFilters, revealed])
 
   const table = useReactTable({
     data: filteredData as TData[],
