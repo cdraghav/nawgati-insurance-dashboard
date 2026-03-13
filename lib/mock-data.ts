@@ -16,7 +16,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     isCommercial: false,
     area: "Chanakyapuri",
     insuranceExpiry: "2026-02-15",
-    phoneNumber: "98XXXX1234",
+    phoneNumber: "98XXXX1093",
   },
   {
     id: "rec-002",
@@ -25,7 +25,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     isCommercial: true,
     area: "Connaught Place",
     insuranceExpiry: "2026-03-01",
-    phoneNumber: "70XXXX5678",
+    phoneNumber: "70XXXX8412",
   },
   {
     id: "rec-003",
@@ -34,7 +34,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     isCommercial: false,
     area: "Rohini Sector 11",
     insuranceExpiry: "2026-03-10",
-    phoneNumber: "91XXXX9012",
+    phoneNumber: "91XXXX5231",
   },
   {
     id: "rec-004",
@@ -43,7 +43,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     isCommercial: false,
     area: "Hauz Khas Village",
     insuranceExpiry: "2026-03-12",
-    phoneNumber: "88XXXX3456",
+    phoneNumber: "88XXXX0457",
   },
   {
     id: "rec-005",
@@ -52,7 +52,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     isCommercial: true,
     area: "Lajpat Nagar",
     insuranceExpiry: "2026-03-15",
-    phoneNumber: "99XXXX7890",
+    phoneNumber: "99XXXX2384",
   },
   {
     id: "rec-006",
@@ -61,7 +61,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     isCommercial: false,
     area: "Karol Bagh Market",
     insuranceExpiry: "2026-03-25",
-    phoneNumber: "77XXXX2345",
+    phoneNumber: "77XXXX6712",
   },
   {
     id: "rec-007",
@@ -70,7 +70,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     isCommercial: false,
     area: "Tilak Nagar",
     insuranceExpiry: "2026-04-05",
-    phoneNumber: "82XXXX6789",
+    phoneNumber: "82XXXX3498",
   },
   {
     id: "rec-008",
@@ -79,7 +79,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     isCommercial: false,
     area: "Vasant Kunj",
     insuranceExpiry: "2026-02-28",
-    phoneNumber: "93XXXX1234",
+    phoneNumber: "93XXXX7215",
   },
   {
     id: "rec-009",
@@ -88,7 +88,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     isCommercial: false,
     area: "Mayur Vihar Phase 1",
     insuranceExpiry: "2026-03-11",
-    phoneNumber: "80XXXX5678",
+    phoneNumber: "80XXXX1904",
   },
   {
     id: "rec-010",
@@ -97,7 +97,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     isCommercial: false,
     area: "Shahdara",
     insuranceExpiry: "2026-04-01",
-    phoneNumber: "96XXXX9012",
+    phoneNumber: "96XXXX4328",
   },
   {
     id: "rec-011",
@@ -106,7 +106,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     isCommercial: true,
     area: "Dwarka Sector 21",
     insuranceExpiry: "2026-03-13",
-    phoneNumber: "74XXXX3456",
+    phoneNumber: "74XXXX8107",
   },
   {
     id: "rec-012",
@@ -115,7 +115,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     isCommercial: false,
     area: "Janakpuri",
     insuranceExpiry: "2026-03-08",
-    phoneNumber: "85XXXX7890",
+    phoneNumber: "85XXXX5643",
   },
   {
     id: "rec-013",
@@ -124,7 +124,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     isCommercial: false,
     area: "Paharganj",
     insuranceExpiry: "2026-04-09",
-    phoneNumber: "92XXXX2345",
+    phoneNumber: "92XXXX9210",
   },
   {
     id: "rec-014",
@@ -133,7 +133,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     isCommercial: false,
     area: "Pitampura",
     insuranceExpiry: "2026-03-20",
-    phoneNumber: "78XXXX6789",
+    phoneNumber: "78XXXX2456",
   },
   {
     id: "rec-015",
@@ -142,7 +142,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     isCommercial: false,
     area: "Civil Lines",
     insuranceExpiry: "2026-01-30",
-    phoneNumber: "89XXXX1234",
+    phoneNumber: "89XXXX3891",
   },
   {
     id: "rec-016",
@@ -151,7 +151,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     isCommercial: false,
     area: "Greater Kailash 2",
     insuranceExpiry: "2026-03-22",
-    phoneNumber: "97XXXX5678",
+    phoneNumber: "97XXXX7124",
   },
   {
     id: "rec-017",
@@ -160,7 +160,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     isCommercial: true,
     area: "Saket District Centre",
     insuranceExpiry: "2026-03-30",
-    phoneNumber: "75XXXX9012",
+    phoneNumber: "75XXXX4562",
   },
   {
     id: "rec-018",
@@ -169,7 +169,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     isCommercial: false,
     area: "R K Puram",
     insuranceExpiry: "2026-03-11",
-    phoneNumber: "83XXXX3456",
+    phoneNumber: "83XXXX1903",
   },
   {
     id: "rec-019",
@@ -178,7 +178,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     isCommercial: false,
     area: "Aerocity",
     insuranceExpiry: "2026-02-14",
-    phoneNumber: "90XXXX7890",
+    phoneNumber: "90XXXX6785",
   },
   {
     id: "rec-020",
@@ -187,7 +187,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     isCommercial: false,
     area: "Okhla Phase III",
     insuranceExpiry: "2026-04-02",
-    phoneNumber: "76XXXX2345",
+    phoneNumber: "76XXXX2341",
   },
   {
     id: "rec-021",
@@ -196,7 +196,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     isCommercial: true,
     area: "Chandni Chowk",
     insuranceExpiry: "2026-01-01",
-    phoneNumber: "84XXXX6789",
+    phoneNumber: "84XXXX8450",
   },
   {
     id: "rec-022",
@@ -205,7 +205,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     isCommercial: true,
     area: "Naraina Industrial",
     insuranceExpiry: "2026-03-14",
-    phoneNumber: "91XXXX1234",
+    phoneNumber: "91XXXX3217",
   },
   {
     id: "rec-023",
@@ -214,7 +214,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     isCommercial: true,
     area: "Preet Vihar",
     insuranceExpiry: "2026-03-28",
-    phoneNumber: "79XXXX5678",
+    phoneNumber: "79XXXX7492",
   },
   {
     id: "rec-024",
@@ -223,7 +223,7 @@ export const insuranceRecords: InsuranceRecord[] = [
     isCommercial: false,
     area: "Paschim Vihar",
     insuranceExpiry: "2026-02-20",
-    phoneNumber: "95XXXX9012",
+    phoneNumber: "95XXXX5106",
   },
   {
     id: "rec-025",
@@ -232,10 +232,9 @@ export const insuranceRecords: InsuranceRecord[] = [
     isCommercial: true,
     area: "NDLS",
     insuranceExpiry: "2026-03-18",
-    phoneNumber: "72XXXX3456",
+    phoneNumber: "72XXXX9643",
   },
 ]
-
 export function getExpiryStatus(expiry: string) {
   const today = new Date()
   today.setHours(0, 0, 0, 0)

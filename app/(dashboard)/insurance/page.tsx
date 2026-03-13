@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { ShieldCheckIcon, ShieldAlertIcon, ShieldOffIcon, ScanLineIcon } from "lucide-react"
+import { ShieldAlertIcon, ShieldOffIcon, TruckIcon, ScanLineIcon } from "lucide-react"
 import { StatCard } from "@/components/ui/stat-card"
 import { insuranceRecords } from "@/lib/mock-data"
 import { columns } from "./columns"
@@ -13,7 +13,7 @@ function getAnalytics() {
 
   let expired = 0
   let expiringSoon = 0
-  let valid = 0
+  let commercial = 0
 
   const todayStr = today.toISOString().split("T")[0]
 
@@ -25,14 +25,15 @@ function getAnalytics() {
 
     if (diffDays < 0) expired++
     else if (diffDays <= 30) expiringSoon++
-    else valid++
+
+    if (record.isCommercial) commercial++
   }
 
   const todayScans = insuranceRecords.filter((r) =>
     r.timestamp.startsWith(todayStr)
   ).length
 
-  return { total: insuranceRecords.length, todayScans, expired, expiringSoon, valid }
+  return { total: insuranceRecords.length, todayScans, commercial, expired, expiringSoon }
 }
 
 export default function InsurancePage() {
@@ -40,19 +41,19 @@ export default function InsurancePage() {
 
   const CARDS = [
     {
+      title: "Commercial Vehicles",
+      value: stats.commercial,
+      subheading: `${Math.round((stats.commercial / stats.total) * 100)}% of total`,
+      icon: TruckIcon,
+      changePercent: Math.round((stats.commercial / stats.total) * 100),
+      variant: "default" as const,
+    },
+    {
       title: "Scanned Today",
       value: stats.todayScans,
       subheading: `${stats.total} total records`,
       icon: ScanLineIcon,
       changePercent: 0,
-      variant: "default" as const,
-    },
-    {
-      title: "Valid Insurance",
-      value: stats.valid,
-      subheading: `${Math.round((stats.valid / stats.total) * 100)}% of scanned`,
-      icon: ShieldCheckIcon,
-      changePercent: Math.round((stats.valid / stats.total) * 100),
       variant: "success" as const,
     },
     {
@@ -75,8 +76,7 @@ export default function InsurancePage() {
 
   return (
     <div className="flex flex-col gap-4 sm:gap-6">
-      {/* Mobile: compact horizontal strip */}
-      <div className="flex gap-2 overflow-x-auto pb-0.5 sm:hidden">
+      <div className="flex gap-2 overflow-x-auto pb-0.5 lg:hidden">
         {CARDS.map((card) => {
           const Icon = card.icon
           const colorMap = {
@@ -88,7 +88,7 @@ export default function InsurancePage() {
           return (
             <div
               key={card.title}
-              className="flex shrink-0 items-center gap-2 rounded-xl border bg-card px-3 py-2"
+              className="flex flex-1 items-center gap-2 rounded-xl border bg-card px-3 py-2"
             >
               <div className={`flex items-center justify-center rounded-md p-1.5 ${colorMap[card.variant]}`}>
                 <Icon className="size-3.5" />
@@ -102,14 +102,12 @@ export default function InsurancePage() {
         })}
       </div>
 
-      {/* sm+: full cards grid */}
-      <div className="hidden gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-4">
+      <div className="hidden gap-4 lg:grid lg:grid-cols-4">
         {CARDS.map((card) => (
           <StatCard key={card.title} {...card} />
         ))}
       </div>
 
-      {/* Table */}
       <DataTable columns={columns} data={insuranceRecords} />
     </div>
   )

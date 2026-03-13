@@ -7,9 +7,52 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { NumberPlate } from "@/components/ui/number-plate"
 import { EncryptedText } from "@/components/ui/encrypted-text"
+import { CopyIcon, type CopyIconHandle } from "@/components/ui/copy"
+import { cn } from "@/lib/utils"
 import type { InsuranceRecord } from "@/lib/mock-data"
 import { realVehicleData } from "@/lib/real-data"
 import { useRevealedStore } from "@/lib/revealed-store"
+
+function CopyableText({
+  children,
+  copyText,
+  className,
+}: {
+  children: React.ReactNode
+  copyText: string
+  className?: string
+}) {
+  const copyRef = React.useRef<CopyIconHandle>(null)
+  const [copied, setCopied] = React.useState(false)
+
+  function handleCopy(e: React.MouseEvent) {
+    e.stopPropagation()
+    navigator.clipboard.writeText(copyText)
+    copyRef.current?.startAnimation()
+    setCopied(true)
+    setTimeout(() => {
+      copyRef.current?.stopAnimation()
+      setCopied(false)
+    }, 1500)
+  }
+
+  return (
+    <button
+      onClick={handleCopy}
+      className={cn("group flex cursor-copy items-center gap-1.5", className)}
+    >
+      {children}
+      <CopyIcon
+        ref={copyRef}
+        size={13}
+        className={cn(
+          "shrink-0 opacity-0 transition-all group-hover:opacity-100",
+          copied ? "text-primary" : "text-muted-foreground/50"
+        )}
+      />
+    </button>
+  )
+}
 
 export function getExpiryStatus(expiry: string) {
   const today = new Date()
@@ -46,23 +89,26 @@ function VehicleNumberCell({ record }: { record: InsuranceRecord }) {
   // phoneNumber being set means vehicle animation already completed — skip re-animating
   if (revealed.phoneNumber !== null) {
     return (
-      <NumberPlate isCommercial={record.isCommercial}>
-        {revealed.vehicleNumber}
-      </NumberPlate>
+      <CopyableText copyText={revealed.vehicleNumber.replace(/-/g, "")}>
+        <NumberPlate isCommercial={record.isCommercial}>
+          {revealed.vehicleNumber}
+        </NumberPlate>
+      </CopyableText>
     )
   }
 
   return (
-    <NumberPlate isCommercial={record.isCommercial}>
-      <EncryptedText
-        text={revealed.vehicleNumber}
-        encryptedClassName="opacity-40"
-        revealDelayMs={55}
-        onComplete={() => {
-          if (realPhone) revealPhone(record.id, realPhone)
-        }}
-      />
-    </NumberPlate>
+    <CopyableText copyText={revealed.vehicleNumber.replace(/-/g, "")}>
+      <NumberPlate isCommercial={record.isCommercial}>
+        <EncryptedText
+          text={revealed.vehicleNumber}
+          encryptedClassName="opacity-40"
+          onComplete={() => {
+            if (realPhone) revealPhone(record.id, realPhone)
+          }}
+        />
+      </NumberPlate>
+    </CopyableText>
   )
 }
 
@@ -73,19 +119,27 @@ function PhoneNumberCell({ record }: { record: InsuranceRecord }) {
 
   if (!revealed?.phoneNumber) return <span className="font-mono text-sm">{record.phoneNumber}</span>
 
+  const digits = revealed.phoneNumber.replace(/\D/g, "")
+  const strippedPhone = digits.startsWith("91") && digits.length === 12 ? digits.slice(2) : digits
+
   // Animation already played — render instantly
   if (revealed.phoneAnimDone) {
-    return <span className="font-mono text-sm font-medium">{revealed.phoneNumber}</span>
+    return (
+      <CopyableText copyText={strippedPhone}>
+        <span className="font-mono text-sm font-medium">{revealed.phoneNumber}</span>
+      </CopyableText>
+    )
   }
 
   return (
-    <EncryptedText
-      text={revealed.phoneNumber}
-      encryptedClassName="text-muted-foreground/50"
-      className="font-mono text-sm font-medium"
-      revealDelayMs={40}
-      onComplete={() => markPhoneAnimDone(record.id)}
-    />
+    <CopyableText copyText={strippedPhone}>
+      <EncryptedText
+        text={revealed.phoneNumber}
+        encryptedClassName="text-muted-foreground/50"
+        className="font-mono text-sm font-medium"
+        onComplete={() => markPhoneAnimDone(record.id)}
+      />
+    </CopyableText>
   )
 }
 

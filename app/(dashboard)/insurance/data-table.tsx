@@ -305,7 +305,7 @@ export function DataTable<TData, TValue>({
   const [timeChip, setTimeChip] = React.useState<TimeChip>("all")
   const [search, setSearch] = React.useState("")
   const [colFilters, setColFilters] = React.useState<ColFilters>(DEFAULT_COL_FILTERS)
-  const [pageSize, setPageSize] = React.useState(10)
+  const [pageSize, setPageSize] = React.useState(25)
 
   const revealed = useRevealedStore((s) => s.revealed)
   // Defer search so the input stays responsive; filtering runs in a low-priority render
@@ -576,7 +576,7 @@ export function DataTable<TData, TValue>({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {[10, 20, 50].map((n) => (
+                {[25, 50, 75, 100].map((n) => (
                   <SelectItem key={n} value={String(n)}>
                     {n}
                   </SelectItem>

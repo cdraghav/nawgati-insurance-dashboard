@@ -18,7 +18,7 @@ export function EncryptedText({
   text,
   encryptedClassName,
   revealedClassName,
-  revealDelayMs = 50,
+  revealDelayMs = 30,
   className,
   onComplete,
 }: EncryptedTextProps) {
