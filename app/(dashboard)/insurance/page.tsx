@@ -41,20 +41,20 @@ export default function InsurancePage() {
 
   const CARDS = [
     {
-      title: "Commercial Vehicles",
-      value: stats.commercial,
-      subheading: `${Math.round((stats.commercial / stats.total) * 100)}% of total`,
-      icon: TruckIcon,
-      changePercent: Math.round((stats.commercial / stats.total) * 100),
-      variant: "default" as const,
-    },
-    {
       title: "Scanned Today",
       value: stats.todayScans,
       subheading: `${stats.total} total records`,
       icon: ScanLineIcon,
       changePercent: 0,
       variant: "success" as const,
+    },
+    {
+      title: "Commercial Vehicles",
+      value: stats.commercial,
+      subheading: `${Math.round((stats.commercial / stats.total) * 100)}% of total`,
+      icon: TruckIcon,
+      changePercent: Math.round((stats.commercial / stats.total) * 100),
+      variant: "default" as const,
     },
     {
       title: "Expiring Soon",

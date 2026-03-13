@@ -46,7 +46,7 @@ function CopyableText({
         ref={copyRef}
         size={13}
         className={cn(
-          "shrink-0 opacity-0 transition-all group-hover:opacity-100",
+          "shrink-0 opacity-0 transition-all group-hover:opacity-100 ",
           copied ? "text-primary" : "text-muted-foreground/50"
         )}
       />
