@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation"
 import { useAuthStore } from "@/lib/auth-store"
-import { api } from "@/lib/api"
 
 export function useAuth() {
   const router = useRouter()
@@ -10,9 +9,6 @@ export function useAuth() {
   const clearAuth = useAuthStore((s) => s.clearAuth)
 
   async function logout() {
-    try {
-      await api.auth.signout()
-    } catch {}
     clearAuth()
     router.push("/login")
   }

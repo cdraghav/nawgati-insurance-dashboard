@@ -29,7 +29,7 @@ export function EncryptedText({
     Array.from({ length: text.length }, () => randomChar(text, 0, -1))
   )
 
-  // Scramble unrevealed chars at 40ms tick
+  
   React.useEffect(() => {
     if (revealedCount >= text.length) return
     const id = setInterval(() => {
@@ -42,7 +42,7 @@ export function EncryptedText({
     return () => clearInterval(id)
   }, [revealedCount, text])
 
-  // Reveal one char at a time; fire onComplete when done
+  
   React.useEffect(() => {
     if (revealedCount >= text.length) {
       onCompleteRef.current?.()
@@ -72,7 +72,7 @@ export function EncryptedText({
   )
 }
 
-// Keep spaces and hyphens as-is for structural fidelity
+
 function randomChar(text: string, index: number, revealedCount: number): string {
   if (index < revealedCount) return text[index]
   const ch = text[index]

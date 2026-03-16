@@ -56,7 +56,7 @@ axiosInstance.interceptors.response.use(
     if (!refreshToken) {
       clearAuth()
       isRefreshing = false
-      return Promise.reject(new Error("Session expired. Please sign in again."))
+      return Promise.reject(new Error("Invalid Credentials. Please sign in again."))
     }
 
     try {

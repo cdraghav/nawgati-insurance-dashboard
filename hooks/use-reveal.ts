@@ -10,7 +10,6 @@ export function useRevealMutation() {
   return useMutation({
     mutationFn: (visitId: string) => api.leads.reveal(visitId),
     onSuccess: (lead) => {
-      // Instantly update every cached visits page — no refetch needed
       queryClient.setQueriesData<VisitsResponse>(
         { queryKey: ["visits"], exact: false },
         (old) => {
