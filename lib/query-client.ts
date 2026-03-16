@@ -5,7 +5,7 @@ export const queryClient = new QueryClient({
     queries: {
       staleTime: 30_000,
       retry: (failureCount, error) => {
-        if ((error as Error).message === "Session expired. Please sign in again.") return false
+        if ((error as Error).message === "Session expired.") return false
         return failureCount < 2
       },
     },
