@@ -12,9 +12,12 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.90.21",
     "@tanstack/react-table": "^8.21.3",
+    "axios": "^1.13.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
     "lottie-react": "^2.4.1",
     "lucide-react": "^0.577.0",
     "motion": "^12.36.0",

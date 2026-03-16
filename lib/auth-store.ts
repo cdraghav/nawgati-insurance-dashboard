@@ -1,39 +1,29 @@
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
-
-interface User {
-  name: string
-  email: string
-}
+import type { User } from "./types"
 
 interface AuthState {
   user: User | null
-  login: (email: string, password: string) => boolean
-  logout: () => void
-}
-
-const CREDENTIALS = {
-  email: "admin@nawgati.com",
-  password: "nawgati@123",
-  name: "Admin User",
+  accessToken: string | null
+  refreshToken: string | null
+  setAuth: (user: User, accessToken: string, refreshToken: string) => void
+  setTokens: (accessToken: string, refreshToken: string) => void
+  clearAuth: () => void
 }
 
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       user: null,
-      login: (email, password) => {
-        if (
-          email === CREDENTIALS.email &&
-          password === CREDENTIALS.password
-        ) {
-          set({ user: { name: CREDENTIALS.name, email: CREDENTIALS.email } })
-          return true
-        }
-        return false
-      },
-      logout: () => set({ user: null }),
+      accessToken: null,
+      refreshToken: null,
+      setAuth: (user, accessToken, refreshToken) =>
+        set({ user, accessToken, refreshToken }),
+      setTokens: (accessToken, refreshToken) =>
+        set({ accessToken, refreshToken }),
+      clearAuth: () =>
+        set({ user: null, accessToken: null, refreshToken: null }),
     }),
-    { name: "insurance-auth" }
+    { name: "nawgati-auth" }
   )
 )

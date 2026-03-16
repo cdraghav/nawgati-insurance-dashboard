@@ -26,12 +26,8 @@ export function AppHeader() {
   const { setTheme, theme } = useTheme()
 
   const title = PAGE_TITLES[pathname] ?? "Dashboard"
-  const initials = user?.name
-    ? user.name
-        .split(" ")
-        .map((n) => n[0])
-        .join("")
-        .toUpperCase()
+  const initials = user
+    ? `${user.first_name[0]}${user.last_name[0]}`.toUpperCase()
     : "AU"
 
   return (
@@ -79,7 +75,7 @@ export function AppHeader() {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-52">
             <div className="px-2 py-1.5">
-              <p className="text-sm font-medium leading-none">{user?.name}</p>
+              <p className="text-sm font-medium leading-none">{user ? `${user.first_name} ${user.last_name}` : ""}</p>
               <p className="text-xs text-muted-foreground mt-0.5">
                 {user?.email}
               </p>

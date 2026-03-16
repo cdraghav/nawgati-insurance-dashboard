@@ -1,0 +1,13 @@
+import { QueryClient } from "@tanstack/react-query"
+
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 30_000,
+      retry: (failureCount, error) => {
+        if ((error as Error).message === "Session expired. Please sign in again.") return false
+        return failureCount < 2
+      },
+    },
+  },
+})

@@ -2,16 +2,26 @@
 
 import * as React from "react"
 import { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDownIcon, Loader2Icon, EyeIcon, EyeOffIcon } from "lucide-react"
+import { ArrowUpDownIcon, Loader2Icon, EyeIcon, EyeOffIcon, CarIcon, TruckIcon, BusIcon, Motorbike } from "lucide-react"
+import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { NumberPlate } from "@/components/ui/number-plate"
 import { EncryptedText } from "@/components/ui/encrypted-text"
 import { CopyIcon, type CopyIconHandle } from "@/components/ui/copy"
 import { cn } from "@/lib/utils"
-import type { InsuranceRecord } from "@/lib/mock-data"
-import { realVehicleData } from "@/lib/real-data"
+import type { Visit } from "@/lib/types"
 import { useRevealedStore } from "@/lib/revealed-store"
+import { useRevealMutation } from "@/hooks/use-reveal"
+import { getUserColor, getVehicleTypeColor, getVehicleTypeIconName } from "@/lib/user-colors"
+
+const VEHICLE_ICON_MAP = {
+  car: CarIcon,
+  truck: TruckIcon,
+  bike: Motorbike,
+  bus: BusIcon,
+  auto: Motorbike
+} as const
 
 function CopyableText({
   children,
@@ -46,7 +56,7 @@ function CopyableText({
         ref={copyRef}
         size={13}
         className={cn(
-          "shrink-0 opacity-0 transition-all group-hover:opacity-100 ",
+          "shrink-0 opacity-0 transition-all group-hover:opacity-100",
           copied ? "text-primary" : "text-muted-foreground/50"
         )}
       />
@@ -54,75 +64,60 @@ function CopyableText({
   )
 }
 
-export function getExpiryStatus(expiry: string) {
+export function getExpiryStatus(expiry: string | null) {
+  if (!expiry) return { label: "Unknown", variant: "outline" as const, status: "valid" as const }
   const today = new Date()
   today.setHours(0, 0, 0, 0)
-  const expiryDate = new Date(expiry)
+const expiryDate = new Date(expiry + 'T00:00:00')
   const diffDays = Math.ceil(
     (expiryDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
   )
 
-  if (diffDays < 0)
-    return {
-      label: "Expired",
-      variant: "destructive" as const,
-      status: "expired" as const,
-    }
-  if (diffDays <= 30)
-    return {
-      label: `Exp. in ${diffDays}d`,
-      variant: "secondary" as const,
-      warn: true,
-      status: "expiring" as const,
-    }
+  if (diffDays <= 0)
+    return { label: "Expired", variant: "destructive" as const, status: "expired" as const }
+  if (diffDays <= 60)
+    return { label: `Exp. in ${diffDays}d`, variant: "secondary" as const, warn: true, status: "expiring" as const }
   return { label: "Valid", variant: "outline" as const, status: "valid" as const }
 }
 
-// Vehicle number cell — animates once on first reveal; skips animation on re-renders
-function VehicleNumberCell({ record }: { record: InsuranceRecord }) {
-  const revealed = useRevealedStore((s) => s.revealed[record.id])
+function VehicleNumberCell({ visit }: { visit: Visit }) {
+  const revealed = useRevealedStore((s) => s.revealed[visit.id])
   const revealPhone = useRevealedStore((s) => s.revealPhone)
-  const realPhone = realVehicleData[record.id]?.phoneNumber
 
-  if (!revealed) return <NumberPlate isCommercial={record.isCommercial}>{record.vehicleNumber}</NumberPlate>
+  if (!revealed)
+    return <NumberPlate isCommercial={visit.isCommercial}>{visit.vehicleNumber}</NumberPlate>
 
-  // phoneNumber being set means vehicle animation already completed — skip re-animating
   if (revealed.phoneNumber !== null) {
     return (
       <CopyableText copyText={revealed.vehicleNumber.replace(/-/g, "")}>
-        <NumberPlate isCommercial={record.isCommercial}>
-          {revealed.vehicleNumber}
-        </NumberPlate>
+        <NumberPlate isCommercial={visit.isCommercial}>{revealed.vehicleNumber}</NumberPlate>
       </CopyableText>
     )
   }
 
   return (
     <CopyableText copyText={revealed.vehicleNumber.replace(/-/g, "")}>
-      <NumberPlate isCommercial={record.isCommercial}>
+      <NumberPlate isCommercial={visit.isCommercial}>
         <EncryptedText
           text={revealed.vehicleNumber}
           encryptedClassName="opacity-40"
-          onComplete={() => {
-            if (realPhone) revealPhone(record.id, realPhone)
-          }}
+          onComplete={() => revealPhone(visit.id, revealed.vehiclePhone)}
         />
       </NumberPlate>
     </CopyableText>
   )
 }
 
-// Phone number cell — animates once on first reveal; skips animation on re-renders
-function PhoneNumberCell({ record }: { record: InsuranceRecord }) {
-  const revealed = useRevealedStore((s) => s.revealed[record.id])
+function PhoneNumberCell({ visit }: { visit: Visit }) {
+  const revealed = useRevealedStore((s) => s.revealed[visit.id])
   const markPhoneAnimDone = useRevealedStore((s) => s.markPhoneAnimDone)
 
-  if (!revealed?.phoneNumber) return <span className="font-mono text-sm">{record.phoneNumber}</span>
+  if (!revealed?.phoneNumber)
+    return <span className="font-mono text-sm text-muted-foreground">••••••••••</span>
 
   const digits = revealed.phoneNumber.replace(/\D/g, "")
   const strippedPhone = digits.startsWith("91") && digits.length === 12 ? digits.slice(2) : digits
 
-  // Animation already played — render instantly
   if (revealed.phoneAnimDone) {
     return (
       <CopyableText copyText={strippedPhone}>
@@ -137,25 +132,43 @@ function PhoneNumberCell({ record }: { record: InsuranceRecord }) {
         text={revealed.phoneNumber}
         encryptedClassName="text-muted-foreground/50"
         className="font-mono text-sm font-medium"
-        onComplete={() => markPhoneAnimDone(record.id)}
+        onComplete={() => markPhoneAnimDone(visit.id)}
       />
     </CopyableText>
   )
 }
 
-// Actions cell — triggers API call, updates store, can re-obfuscate
-function ShowDetailsCell({ record }: { record: InsuranceRecord }) {
+function ShowDetailsCell({ visit }: { visit: Visit }) {
   const [loading, setLoading] = React.useState(false)
-  const revealed = useRevealedStore((s) => s.revealed[record.id])
+  const revealed = useRevealedStore((s) => s.revealed[visit.id])
   const setRevealed = useRevealedStore((s) => s.setRevealed)
   const clearRevealed = useRevealedStore((s) => s.clearRevealed)
+  const revealMutation = useRevealMutation()
 
   async function handleReveal() {
     setLoading(true)
-    await new Promise((r) => setTimeout(r, 600))
-    const data = realVehicleData[record.id]
-    if (data) setRevealed(record.id, { vehicleNumber: data.vehicleNumber, phoneNumber: null, phoneAnimDone: false })
-    setLoading(false)
+    try {
+      const lead = await revealMutation.mutateAsync(visit.id)
+      setRevealed(visit.id, {
+        vehicleNumber: lead.vehicleNumber,
+        vehiclePhone: lead.vehiclePhone,
+        phoneNumber: null,
+        phoneAnimDone: false,
+      })
+    } catch (err) {
+      toast.error((err as Error).message ?? "Failed to reveal details")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (!visit.isClaimable) {
+    return (
+      <Button variant="ghost" size="sm" disabled className="gap-1.5 text-muted-foreground">
+        <EyeOffIcon className="size-3.5" />
+        Claimed
+      </Button>
+    )
   }
 
   if (revealed) {
@@ -163,7 +176,7 @@ function ShowDetailsCell({ record }: { record: InsuranceRecord }) {
       <Button
         variant="ghost"
         size="sm"
-        onClick={() => clearRevealed(record.id)}
+        onClick={() => clearRevealed(visit.id)}
         className="gap-1.5 text-muted-foreground hover:text-foreground"
       >
         <EyeOffIcon className="size-3.5" />
@@ -190,7 +203,7 @@ function ShowDetailsCell({ record }: { record: InsuranceRecord }) {
   )
 }
 
-export const columns: ColumnDef<InsuranceRecord>[] = [
+export const columns: ColumnDef<Visit>[] = [
   {
     accessorKey: "timestamp",
     header: ({ column }) => (
@@ -213,7 +226,28 @@ export const columns: ColumnDef<InsuranceRecord>[] = [
   {
     accessorKey: "vehicleNumber",
     header: "Vehicle Number",
-    cell: ({ row }) => <VehicleNumberCell record={row.original} />,
+    cell: ({ row }) => <VehicleNumberCell visit={row.original} />,
+  },
+  {
+    accessorKey: "vehicleType",
+    header: "Type",
+    cell: ({ row }) => {
+      const type = row.getValue("vehicleType") as string
+      if (!type) return <span className="text-xs text-muted-foreground">—</span>
+      const color = getVehicleTypeColor(type)
+      const iconName = getVehicleTypeIconName(type)
+      const Icon = iconName ? VEHICLE_ICON_MAP[iconName] : null
+      return (
+        <span
+          className="inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
+          style={{ background: color.bg, color: color.text }}
+        >
+          {Icon && <Icon className="size-2.5" />}
+          {type}
+        </span>
+      )
+    },
+    enableSorting: false,
   },
   {
     accessorKey: "area",
@@ -228,9 +262,14 @@ export const columns: ColumnDef<InsuranceRecord>[] = [
         <ArrowUpDownIcon className="size-3.5" />
       </Button>
     ),
-    cell: ({ row }) => (
-      <span className="text-sm">{row.getValue("area")}</span>
-    ),
+    cell: ({ row }) => {
+      const area = row.getValue("area") as string
+      return (
+        <span className="block max-w-[180px] truncate text-sm" title={area}>
+          {area}
+        </span>
+      )
+    },
   },
   {
     accessorKey: "insuranceExpiry",
@@ -246,16 +285,16 @@ export const columns: ColumnDef<InsuranceRecord>[] = [
       </Button>
     ),
     cell: ({ row }) => {
-      const expiry: string = row.getValue("insuranceExpiry")
+      const expiry: string | null = row.getValue("insuranceExpiry")
       const status = getExpiryStatus(expiry)
       return (
         <div className="flex items-center gap-2">
-          <span className="text-sm tabular-nums">{expiry}</span>
+          <span className="text-sm tabular-nums">{expiry ?? "—"}</span>
           <Badge
             variant={status.variant}
             className={
               status.warn
-                ? "border-warning-2 bg-warning-1/20 text-warning-2 dark:text-warning-1 "
+                ? "border-warning-2 bg-warning-1/20 text-warning-2 dark:text-warning-1"
                 : undefined
             }
           >
@@ -268,12 +307,36 @@ export const columns: ColumnDef<InsuranceRecord>[] = [
   {
     accessorKey: "phoneNumber",
     header: "Phone Number",
-    cell: ({ row }) => <PhoneNumberCell record={row.original} />,
+    cell: ({ row }) => <PhoneNumberCell visit={row.original} />,
+  },
+  {
+    id: "assignedTo",
+    header: "Claimed By",
+    cell: ({ row }) => {
+      const a = row.original.assignedTo
+      if (!a)
+        return <span className="text-xs text-muted-foreground">Nobody</span>
+      const fullName = `${a.firstName} ${a.lastName}`
+      const initials = `${a.firstName[0]}${a.lastName[0]}`.toUpperCase()
+      const color = getUserColor(fullName)
+      return (
+        <div className="flex items-center gap-1.5">
+          <div
+            className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[10px] font-semibold"
+            style={{ background: color.bg, color: color.text }}
+          >
+            {initials}
+          </div>
+          <span className="text-xs">{fullName}</span>
+        </div>
+      )
+    },
+    enableSorting: false,
   },
   {
     id: "actions",
     header: "",
-    cell: ({ row }) => <ShowDetailsCell record={row.original} />,
+    cell: ({ row }) => <ShowDetailsCell visit={row.original} />,
     enableSorting: false,
     enableHiding: false,
   },

@@ -6,7 +6,7 @@ import { useAuthStore } from "@/lib/auth-store"
 
 export function AuthGuard({ children }: { children: React.ReactNode }) {
   const router = useRouter()
-  const user = useAuthStore((s) => s.user)
+  const accessToken = useAuthStore((s) => s.accessToken)
   const [mounted, setMounted] = React.useState(false)
 
   React.useEffect(() => {
@@ -14,12 +14,12 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
   }, [])
 
   React.useEffect(() => {
-    if (mounted && !user) {
+    if (mounted && !accessToken) {
       router.replace("/login")
     }
-  }, [mounted, user, router])
+  }, [mounted, accessToken, router])
 
-  if (!mounted || !user) {
+  if (!mounted || !accessToken) {
     return (
       <div className="flex min-h-svh items-center justify-center">
         <div className="h-5 w-5 animate-spin rounded-full border-2 border-primary border-t-transparent" />

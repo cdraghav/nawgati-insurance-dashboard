@@ -2,14 +2,15 @@ import { create } from "zustand"
 
 export type RevealedDetails = {
   vehicleNumber: string
-  phoneNumber: string | null  // null = vehicle animating, not yet done
-  phoneAnimDone: boolean       // true = phone animation has completed
+  vehiclePhone: string | null
+  phoneNumber: string | null
+  phoneAnimDone: boolean
 }
 
 interface RevealedStore {
   revealed: Record<string, RevealedDetails>
   setRevealed: (id: string, details: RevealedDetails) => void
-  revealPhone: (id: string, phoneNumber: string) => void
+  revealPhone: (id: string, phoneNumber: string | null) => void
   markPhoneAnimDone: (id: string) => void
   clearRevealed: (id: string) => void
 }

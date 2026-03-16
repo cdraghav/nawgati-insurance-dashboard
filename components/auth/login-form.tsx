@@ -12,13 +12,14 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Field, FieldLabel, FieldError } from "@/components/ui/field"
 import { Checkbox } from "@/components/ui/checkbox"
 import { useAuthStore } from "@/lib/auth-store"
+import { api } from "@/lib/api"
 import { loginSchema } from "@/lib/schemas"
 
 type LoginFormProps = { onValidationError?: (has: boolean) => void }
 
 export function LoginForm({ onValidationError }: LoginFormProps) {
   const router = useRouter()
-  const login = useAuthStore((s) => s.login)
+  const setAuth = useAuthStore((s) => s.setAuth)
 
   const [email, setEmail] = React.useState("")
   const [password, setPassword] = React.useState("")
@@ -49,14 +50,13 @@ export function LoginForm({ onValidationError }: LoginFormProps) {
     onValidationError?.(false)
 
     setIsLoading(true)
-    await new Promise((r) => setTimeout(r, 800))
-
-    const success = login(email, password)
-    if (success) {
-      toast.success("Welcome back, Admin!")
+    try {
+      const data = await api.auth.signin(email, password)
+      setAuth(data.user, data.accessToken, data.refreshToken)
+      toast.success(`Welcome back, ${data.user.first_name}!`)
       router.push("/insurance")
-    } else {
-      setErrors({ form: "Invalid email or password" })
+    } catch (err) {
+      setErrors({ form: (err as Error).message ?? "Invalid email or password" })
       setIsLoading(false)
     }
   }
