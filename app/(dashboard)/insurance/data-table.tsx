@@ -84,11 +84,12 @@ const TIME_CHIPS: { id: TimeRange; label: string }[] = [
   { id: "week", label: "This Week" },
 ]
 
-const VEHICLE_ICON_MAP: Record<"car" | "truck" | "bike" | "bus", LucideIcon> = {
+const VEHICLE_ICON_MAP: Record<"car" | "truck" | "bike" | "bus" |"auto", LucideIcon> = {
   car: CarIcon,
   truck: TruckIcon,
   bike: BikeIcon,
   bus: BusIcon,
+  auto: BikeIcon
 }
 
 function getVehicleIcon(type: string): LucideIcon | null {
@@ -96,13 +97,12 @@ function getVehicleIcon(type: string): LucideIcon | null {
   return name ? VEHICLE_ICON_MAP[name] : null
 }
 
-// Pages shown: 1..current (with ellipsis when current > 5)
 function getPageNumbers(current: number): (number | "ellipsis")[] {
   if (current <= 5) return Array.from({ length: current }, (_, i) => i + 1)
   return [1, "ellipsis", current - 2, current - 1, current]
 }
 
-// ─── FilterTrigger ────────────────────────────────────────────────────────────
+
 
 const FilterTrigger = React.forwardRef<
   HTMLButtonElement,
@@ -139,7 +139,7 @@ const FilterTrigger = React.forwardRef<
 ))
 FilterTrigger.displayName = "FilterTrigger"
 
-// ─── IntervalPicker ───────────────────────────────────────────────────────────
+
 
 const INTERVAL_OPTIONS = [
   { label: "30s", value: 30_000 },
@@ -210,7 +210,7 @@ function IntervalPicker() {
   )
 }
 
-// ─── Column filters ───────────────────────────────────────────────────────────
+
 
 function DateRangeFilter({ label, from, to, onFromChange, onToChange, active, loading }: {
   label: string; from: string; to: string
@@ -390,7 +390,7 @@ function AssignedToFilter({ value, onChange, agents, active, loading }: {
   )
 }
 
-// ─── DataTable ────────────────────────────────────────────────────────────────
+
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -447,7 +447,7 @@ export function DataTable<TData, TValue>({
   const [search, setSearch] = React.useState("")
   const [colFilters, setColFilters] = React.useState<ColFilters>(DEFAULT_COL_FILTERS)
 
-  // Freeze vehicle type options so they don't vanish when a type is selected
+  
   const [vehicleTypeOptions, setVehicleTypeOptions] = React.useState<string[]>([])
   React.useEffect(() => {
     if (!vehicleType) {
@@ -498,7 +498,7 @@ export function DataTable<TData, TValue>({
 
   const pageNumbers = getPageNumbers(page)
 
-  // Track which page triggered the current fetch so we can show the right spinner
+  
   const [pendingPage, setPendingPage] = React.useState<number | null>(null)
   React.useEffect(() => {
     if (!isRefetching) setPendingPage(null)
@@ -527,7 +527,7 @@ export function DataTable<TData, TValue>({
     onPageChange(1)
   }
 
-  // Build dismissible filter badges
+  
   const filterBadges: Array<{ key: string; label: string; Icon?: LucideIcon; onRemove: () => void }> = []
   if (timeRange === "today") filterBadges.push({ key: "timeRange", label: "Today", onRemove: () => { onTimeRangeChange("all"); onPageChange(1) } })
   if (timeRange === "week") filterBadges.push({ key: "timeRange", label: "This Week", onRemove: () => { onTimeRangeChange("all"); onPageChange(1) } })
